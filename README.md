@@ -16,5 +16,4 @@
 - Backend: Node.js
 - Frontend: React.js
 - Database: PostgreSQL!
--
-- [Uploading Screenshot 2025-02-25 at 02.36.09.png…]()
+- Docker
