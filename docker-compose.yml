@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:13
+    container_name: task_manager_db
+    environment:
+      POSTGRES_USER: ishfaaqs
+      POSTGRES_PASSWORD: software
+      POSTGRES_DB: task_list
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Backend API
+  backend:
+    build: ./backend
+    container_name: task_manager_backend
+    ports:
+      - "5002:5002"  # Updated port to match your backend
+    environment:
+      DB_HOST: db  # Use the service name `db` as the host
+      DB_USER: ishfaaqs
+      DB_PASSWORD: software
+      DB_NAME: task_list
+      DB_PORT: 5432
+    depends_on:
+      - db
+
+  # Frontend UI
+  frontend:
+    build: ./frontend
+    container_name: task_manager_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://localhost:5002  # Updated to match the backend port
+    depends_on:
+      - backend
+
+# Volumes for persistent data
+volumes:
+  postgres_data:
